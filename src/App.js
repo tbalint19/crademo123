@@ -2,25 +2,22 @@ import React from 'react'
 import './App.css';
 
 import Fruit from './Components/Fruit'
-import { getId } from './Utils/getId';
+import { withNewFruit } from './Producers/withNewFruit';
+import { withUpdatedFruit } from './Producers/withUpdatedFruit';
 
 const App = () => {
 
   const [ val, setVal ] = React.useState("")
 
-  const [ fruits, setFruits ] = React.useState([
-      { id: getId(), name: "alma", color: "red" },
-      { id: getId(), name: "körte", color: "yellow" },
-      { id: getId(), name: "szilva", color: "purple" }
-  ])
+  const [ fruits, setFruits ] = React.useState([ ])
 
   const clickHandler = () => {
-      setFruits([ ...fruits, { id: getId(), name: val, color: "unknown" } ])
+      setFruits(withNewFruit(fruits, val))
       setVal("")
   }
 
   const updateFruit = (id, newName) => {
-      setFruits(fruits.map(fruit => fruit.id === id ? { ...fruit, name: newName } : fruit))
+      setFruits(withUpdatedFruit(fruits, id, newName))
   }
 
   return (
